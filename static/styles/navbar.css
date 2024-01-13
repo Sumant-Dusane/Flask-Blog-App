@@ -1,0 +1,49 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5rem;
+    color: var(--color-primary);
+    background-color: var(--color-secondary);
+    height: 100px;
+    overflow: hidden;
+    box-shadow: 0px 5px 7px rgb(0 0 0 / 7%);
+    z-index: 10;    
+    transition: .3 all ease-in-out;
+}
+
+.navbar ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    list-style: none;
+    padding: 0;
+}
+.navbar ul li {
+    transition: all .3s ease-in-out;
+}
+
+.navbar ul li:hover {
+    transform: translateY(-2px);
+}
+
+@media screen and (max-width: 425px) {
+    .navbar {
+        padding: .5rem;
+    }
+    .navbar .logo h1{
+        font-size: var(--font-sm);
+    }
+    .navbar ul {
+        font-size: var(--font-s);
+        gap: 1rem;
+    }
+    .navbar .btn {
+        padding: .5rem 1rem;
+    }
+}

@@ -1,0 +1,7 @@
+{% if False %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/message-box.css') }}" />
+
+<div class="message-box">
+  <p class="{{ category }} " id="flash">{{ message }}</p>
+</div>
+{% endif %}

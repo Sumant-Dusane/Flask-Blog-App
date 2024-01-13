@@ -1,0 +1,21 @@
+{% extends 'base.html'%}
+
+{% block head %}
+<title>Home: Flask Blog</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/home.css') }}">
+{% endblock head %}
+
+{% block body %}
+
+<div class="landing wrapper">
+    <div class="left">
+        <h1>The Blog App</h1>
+        <p>Start writing your blogs now! </p>
+        <a href="/blog" class="btn btn-dark">Go to Blog Section</a>
+    </div>
+    <div class="right">
+
+    </div>
+</div>
+
+{% endblock body %}

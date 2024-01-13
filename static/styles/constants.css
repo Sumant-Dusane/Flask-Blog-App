@@ -1,0 +1,15 @@
+:root {
+    --color-white: #FFFFFF;
+    --color-primary: #111111;
+    --color-secondary: #fdfdfd;
+    --color-primary-hover: #484848;
+
+    --font-title: 6.25rem;
+    --font-xl: 3rem;
+    --font-lg: 2rem;
+    --font-sm: 1.5rem;
+    --font-base: 1rem;
+    --font-s: .875rem;
+    --font-xs: .625rem;
+    --font-xxs: .5rem;
+}

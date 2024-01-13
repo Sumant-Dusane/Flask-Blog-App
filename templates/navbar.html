@@ -1,0 +1,18 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/navbar.css') }}" />
+
+<div class="navbar">
+    <a href="/"><h1 class="logo">Blog</h1></a>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/blog">Blogs</a></li>
+        <li><a href="/blog/new">New</a></li>
+    </ul>
+
+    <div>
+        {% if True %}
+        <a class="btn" href="/login">Login</a>
+        {% else %}
+        <a class="btn" href="/logout">Logout</a>
+        {% endif %}
+    </div>
+</div>

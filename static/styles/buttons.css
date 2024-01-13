@@ -1,0 +1,18 @@
+.btn {
+    display: block;
+    color: var(--color-secondary);
+    background-color: var(--color-primary);
+    border: none;
+    font-size: var(--font-s);
+    border-radius: 1.5rem;
+    padding: 1rem 2rem;
+}
+
+.btn:hover {
+    transform: scale(1.09);
+}
+
+.btn-dark {
+    color: var(--color-primary);
+    background-color: var(--color-secondary);
+}
