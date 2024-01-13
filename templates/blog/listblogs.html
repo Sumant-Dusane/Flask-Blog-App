@@ -3,8 +3,33 @@
 
 {% block head %}
 <title>Blogs: Flask Blog</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/blog-list.css') }}">
 {% endblock head %}
 
-{% block body %}    
-<div class="wrapper">All Blogs</div>
+{% block body %}
+<div class="blog-list wrapper container">
+    <h2 class="title">Discover Blogs ✨</h2>
+    {% for i in [0, 1, 2, 3, 4, 5] %}
+    <a href="/blog/{{123}}" class="blog">
+        <div class="header">
+            <img src="" alt="">
+            <div class="author">Name</div>
+            <div class="time">Dec 22, 2023</div>
+        </div>
+        <div class="content">
+            <h2>Blog Title</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod earum, nulla voluptatem placeat
+                maiores, vel animi explicabo adipisci sed molestiae similique eligendi quaerat doloribus maxime
+                iusto distinctio! Illum, exercitationem? Vel ducimus sunt nisi aliquid nam.</p>
+            <div class="image">
+                <img src="https://miro.medium.com/v2/resize:fill:224:224/0*ORJjEuRQB57bd_SX.jpg" alt="image">
+            </div>
+        </div>
+        <div class="footer">
+            <button class="like"><img src="{{ url_for('static', filename='svg/like-svg.svg') }}" alt="" /> like_count</button>
+            <button class="comment"><img src="{{ url_for('static', filename='svg/comment-svg.svg') }}" alt="" /> comment_count</button>
+        </div>
+    </a>
+    {% endfor %}
+</div>
 {% endblock body %}

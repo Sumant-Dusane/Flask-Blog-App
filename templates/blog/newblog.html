@@ -2,8 +2,22 @@
 
 {% block head %}
 <title>New Blog: Flask Blog</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/blog-new.css') }}">
 {% endblock head %}
 
 {% block body %}
-<div class="wrapper">New Blog</div>
+<div class="blog-new wrapper container">
+    <div class="title">Create you new Blog!</div>
+    <div class="editor">
+        <div class="upload-banner">
+            <div class="banner-bg">
+                <img src="{{ url_for('static', filename='images/file-upload.png') }}" alt="">
+                <div>Upload Image Banner Here</div>
+            </div>
+            <input type="file" name="banner" id="banner">
+        </div>
+        <div class="content"></div>
+        <button class="btn">Publish!</button>
+    </div>
+</div>
 {% endblock body %}

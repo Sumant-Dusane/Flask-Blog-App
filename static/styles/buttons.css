@@ -16,3 +16,7 @@
     color: var(--color-primary);
     background-color: var(--color-secondary);
 }
+
+.btn-sm {
+    padding: .5rem 1rem;
+}

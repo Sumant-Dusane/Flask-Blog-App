@@ -1,0 +1,135 @@
+.blog-detail {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 2rem;
+}
+
+.blog-detail > .title {
+    font-size: var(--font-l);
+    padding-top: 1.5rem;
+}
+
+.blog-detail .author {
+    display: grid;
+    grid-template-areas: "image author" "image date";
+    width: max-content;
+    row-gap: .5rem;
+    column-gap: 1rem;
+}
+
+.blog-detail .author img {
+    grid-area: image;
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    object-fit: contain;
+}
+
+.blog-detail .author h3 {
+    grid-area: author;
+}
+
+.blog-detail .author div {
+    grid-area: date;
+}
+
+.blog-detail .controls {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    gap: 2rem;
+    padding: 1rem 0;
+    border-top: 1px solid var(--color-stroke);
+    border-bottom: 1px solid var(--color-stroke);
+}
+
+.blog-detail .controls button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    border: 0;
+    background: transparent;
+}
+
+.blog-detail .controls button img {
+    height: 18px;
+    width: auto;
+}
+
+.blog-detail .controls .like:hover, .blog-detail .controls .like.liked {
+    color: red;
+}
+
+.blog-detail .banner {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.blog-detail .comments {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 1rem;
+    border-top: 2px solid var(--color-stroke);
+}
+
+.blog-detail .comments .title {
+    font-size: var(--font-lg);
+}
+
+.blog-detail .comments .comment-box {
+    position: relative;   
+    width: 100%;
+    min-height: 120px;
+    margin-bottom: 1rem;
+}
+
+.blog-detail .comments .comment-box textarea {
+    height: 100%;
+    width: 100%;
+    padding: .5rem;
+    border: 1px solid var(--color-stroke);
+    border-radius: .5rem;
+    resize: none;
+}
+
+.blog-detail .comments .comment-box button {
+    position: absolute;
+    right: .5rem;
+    bottom: .5rem;
+}
+
+.blog-detail .comments .comment {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: .5rem;
+    padding-bottom: 1rem;
+    border-bottom: .5px solid var(--color-stroke);
+}
+
+.blog-detail .comments .comment .header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+}
+
+.blog-detail .comments .comment .header img {
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    object-fit: contain;
+}
+
+.blog-detail .comments .comment .content p {
+    margin-left: 35px;
+    font-size: var(--font-s);
+}

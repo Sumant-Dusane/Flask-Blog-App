@@ -2,11 +2,50 @@
 
 
 {% block head %}
-<title>{{ type }}: Flask Blog</title>
+<title>{{ type.title() }}: Flask Blog</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/auth.css') }}">
 {% endblock head %}
 
 {% block body %}
 
-<div class="wrapper">{{ type }}</div>
+<div class="auth wrapper">
+
+    {% if type == 'login' %}
+    <form method="post">
+        <label>
+            E-mail
+            <input type="email" name="email" id="email">
+        </label>
+        <label>
+            Password
+            <input type="password" name="password" id="password">
+        </label>
+        <a class="text-redirect" href="signup">New user? signup</a>
+        <input class="btn" type="submit" value="Login">
+    </form>
+    {% else %}
+    <form method="post">
+        <label>
+            Full name
+            <input type="text" name="fname" id="fname">
+        </label>
+        <label>
+            E-mail
+            <input type="email" name="email" id="email">
+        </label>
+        <label>
+            Password
+            <input type="password" name="password" id="password">
+        </label>
+        <label>
+            Confirm Password
+            <input type="password" name="cpassword" id="cpassword">
+        </label>
+        <a class="text-redirect" href="/login">Already a user? login</a>
+        <input class="btn" type="submit" value="Signup">
+    </form>
+    {% endif %}
+
+</div>
 
 {% endblock body %}

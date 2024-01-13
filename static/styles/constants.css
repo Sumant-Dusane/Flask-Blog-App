@@ -3,9 +3,14 @@
     --color-primary: #111111;
     --color-secondary: #fdfdfd;
     --color-primary-hover: #484848;
+    --color-blue: #246596;
+    --color-blue-subtle: #4ca6eb;
+    --color-blue-subtle1: #97caf1;
+    --color-stroke: #2121214a;
 
     --font-title: 6.25rem;
     --font-xl: 3rem;
+    --font-l: 2.25rem;
     --font-lg: 2rem;
     --font-sm: 1.5rem;
     --font-base: 1rem;
