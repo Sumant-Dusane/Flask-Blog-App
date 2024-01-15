@@ -20,10 +20,20 @@
     justify-content: center;
     gap: 1rem;
 }
+
+.blog-list .blog .header img {
+    width: 32px;
+    height: 32px;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
 .blog-list .blog .content {
     display: grid;
     grid-template-areas: "title image" "desc image";
     grid-template-columns: 1fr 25%;
+    width: 100%;
     row-gap: 1rem;
     column-gap: .5rem;
 }

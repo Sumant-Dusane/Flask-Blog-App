@@ -1,23 +1,66 @@
 {% extends 'base.html' %}
 
+{% block title %} New Blog: Flask Blog {% endblock title %}
+
 {% block head %}
-<title>New Blog: Flask Blog</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/blog-new.css') }}">
 {% endblock head %}
 
 {% block body %}
 <div class="blog-new wrapper container">
     <div class="title">Create you new Blog!</div>
-    <div class="editor">
-        <div class="upload-banner">
-            <div class="banner-bg">
-                <img src="{{ url_for('static', filename='images/file-upload.png') }}" alt="">
-                <div>Upload Image Banner Here</div>
+    <form class="editor" method="POST" action="" enctype="multipart/form-data">
+        <div class="row">
+            <div class="upload-icon">
+                <div class="icon-bg">
+                    <img src="{{ url_for('static', filename='images/file-upload.png') }}" alt="">
+                    <div>Upload Blog's icon here</div>
+                </div>
+                <img id="iconBg" src="" alt="">
+                <input type="file" name="icon" id="icon" accept="image/*" onchange="loadIcon(event)">
             </div>
-            <input type="file" name="banner" id="banner">
+            <input type="text" name="title" id="title" placeholder="Blog Title">
         </div>
-        <div class="content"></div>
-        <button class="btn">Publish!</button>
-    </div>
+
+        <div class="row">
+            <div class="upload-banner">
+                <div class="banner-bg">
+                    <img src="{{ url_for('static', filename='images/file-upload.png') }}" alt="">
+                    <div>Upload Image Banner Here</div>
+                </div>
+                <img id="bannerBg" src="" alt="">
+                <input type="file" name="banner" id="banner" accept="image/*" onchange="loadBanner(event)">
+            </div>
+        </div>
+
+        <div class="content">
+            {{ ckeditor.load() }}
+            {{ ckeditor.create() }}
+            {{ ckeditor.config(height=800) }}
+        </div>
+        <button type="submit" class="btn">Publish!</button>
+    </form>
+
+    <script>
+        const loadBanner = () => {
+            const bannerBg = document.getElementById('bannerBg');
+            bannerBg.src = URL.createObjectURL(event.target.files[0]);
+            bannerBg.style.opacity = 1;
+            bannerBg.style.zIndex = 2;
+            bannerBg.onload = () => {
+                URL.revokeObjectURL(bannerBg.src);
+            }
+        }
+
+        const loadIcon = () => {
+            const iconBg = document.getElementById('iconBg');
+            iconBg.src = URL.createObjectURL(event.target.files[0]);
+            iconBg.style.opacity = 1;
+            iconBg.style.zIndex = 2;
+            iconBg.onload = () => {
+                URL.revokeObjectURL(iconBg.src);
+            }
+        }
+    </script>
 </div>
 {% endblock body %}

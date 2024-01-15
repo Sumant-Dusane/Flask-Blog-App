@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
+{% block title %} {{ type.title() }}: Flask Blog {% endblock title %}
 
 {% block head %}
-<title>{{ type.title() }}: Flask Blog</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/auth.css') }}">
 {% endblock head %}
 
@@ -11,41 +11,64 @@
 <div class="auth wrapper">
 
     {% if type == 'login' %}
-    <form method="post">
+    <form method="POST" class="form" action="">
         <label>
             E-mail
-            <input type="email" name="email" id="email">
+            <input type="email" name="email" id="email" value="{{ formValues.email }}">
         </label>
         <label>
             Password
-            <input type="password" name="password" id="password">
+            <input type="password" name="password" id="password" value="{{ formValues.password }}">
+            {% if error %}
+            <small>{{ error }}</small>
+            {% endif %}
         </label>
         <a class="text-redirect" href="signup">New user? signup</a>
-        <input class="btn" type="submit" value="Login">
+        <button class="btn" type="submit">Login</button>
     </form>
     {% else %}
-    <form method="post">
+    <form method="POST" class="form" action="" enctype="multipart/form-data">
+        <div class="profile-pic">
+            <div class="pic-bg">
+                <img id="profile" src="{{ url_for('static', filename='svg/user-svg.svg') }}" alt="">
+            </div>
+            <input type="file" name="author_profile" id="author_profile" accept="image/*" onchange="loadImage(event)">
+        </div>
         <label>
             Full name
-            <input type="text" name="fname" id="fname">
+            <input type="text" name="fname" id="fname" value="{{ formValues.fname }}">
         </label>
         <label>
             E-mail
-            <input type="email" name="email" id="email">
+            <input type="email" name="email" id="email" value="{{ formValues.email }}">
         </label>
         <label>
             Password
-            <input type="password" name="password" id="password">
+            <input type="password" name="password" id="password" value="{{ formValues.password }}">
         </label>
         <label>
             Confirm Password
-            <input type="password" name="cpassword" id="cpassword">
+            <input type="password" name="cpassword" id="cpassword" value="{{ formValues.cpassword }}">
+            {% if error %}
+            <small>{{ error }}</small>
+            {% endif %}
         </label>
         <a class="text-redirect" href="/login">Already a user? login</a>
-        <input class="btn" type="submit" value="Signup">
+        <button class="btn" type="submit">Signup</button>
     </form>
     {% endif %}
 
+
+    <script>
+        const loadImage = () => {
+            const imageDoc = document.getElementById('profile');
+            console.log(imageDoc);
+            imageDoc.src = URL.createObjectURL(event.target.files[0]);
+            imageDoc.onload = () => {
+                URL.revokeObjectURL(imageDoc.src);
+            }
+        }
+    </script>
 </div>
 
 {% endblock body %}

@@ -1,7 +1,9 @@
 {% extends 'base.html'%}
 
+{% block title %} Home: Flask Blog {% endblock title %}
+
+
 {% block head %}
-<title>Home: Flask Blog</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/home.css') }}">
 {% endblock head %}
 
