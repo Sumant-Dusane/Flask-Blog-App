@@ -11,7 +11,7 @@
     <h1 class="title">{{ data['title'] }}</h1>
 
     <div class="author">
-        <img src="{{ data['author_profile'] }}" alt="">
+        <img src="{{ url_for('static', filename='userdata/'+data['author_email']+'/profile-image.webp' )}}" alt="">
         <h3>{{ data['author'] }}</h3>
         <div>{{ data['date'] }}</div>
     </div>
@@ -23,10 +23,10 @@
             {{ data['comment_count'] }}</button>
     </div>
 
-    <img src="{{ data['banner'] }}" alt="{{ data['title'] }}" class="banner">
+    <img src="{{ url_for( 'static', filename='blogdata/'+data['_id']|string+'/banner.webp' )}}" alt="{{ data['title'] }}" class="banner">
 
     <div class="content">
-        {{ data['content|safe'] }}
+        {{ data['content']|safe }}
     </div>
 
     <div class="comments">

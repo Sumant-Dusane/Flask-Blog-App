@@ -45,7 +45,7 @@ def newBlog():
                 icon.save(
                     os.path.join(blog_directory, 'icon.webp')
                 )
-                icon.save(
+                banner.save(
                     os.path.join(blog_directory, 'banner.webp')
                 )
 
@@ -88,7 +88,7 @@ def editBlog(blogId):
 
 @blogBlueprint.route('/<blogId>', methods=['GET', 'POST'])
 def viewBlog(blogId):
-    if blogId:
+    if not blogId == None:
         if session and session["email"]:
             try:
                 blog = blogCollection.find_one({'_id': ObjectId(blogId)})
@@ -98,7 +98,7 @@ def viewBlog(blogId):
                     return redirect(url_for('blog.listAllBlogs'))    
             except Exception as err:
                 print(f"Error in /blog/{blogId}: ", err)
-                return render_template("login.html")
+                return redirect(url_for('blog.listAllBlogs'))
         else:
             return redirect(url_for('auth.loginUser'))
     else:
