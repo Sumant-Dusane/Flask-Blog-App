@@ -41,7 +41,7 @@
 .blog-list .blog .content h2 {
     grid-area: title;
 }
-.blog-list .blog .content p {
+.blog-list .blog .content .desc {
     grid-area: desc;
     padding-bottom: 3rem;
 }

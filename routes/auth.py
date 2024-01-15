@@ -5,7 +5,6 @@ import re
 
 authBlueprint = Blueprint("auth", __name__)
 regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
-BLOG_DATA_IMAGES = 'static/blogdata' 
 USER_DATA_IMAGES = 'static/userdata' 
 def isValidImage(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'png', 'jpeg', 'jpg', 'webp', 'gif'}
@@ -57,10 +56,12 @@ def registerUser():
                 if not os.path.exists(user_directory):
                     os.makedirs(user_directory)
 
-                author_profile.save(os.path.join(user_directory, 'profile-image.'+ author_profile.filename.split('.')[1]))
+                author_profile.save(
+                    os.path.join(user_directory, 'profile-image.webp')
+                )
                 
                 newUserId = userCollection.insert_one({
-                    'author_profile': 'profile-image.'+ author_profile.filename.split('.')[1],
+                    'author_profile': 'profile-image.webp',
                     'full_name': fname,
                     'email': email,
                     'password': password

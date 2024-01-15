@@ -2,8 +2,10 @@ from flask import Blueprint, render_template, redirect, url_for, session, reques
 from db.mongoDB import blogCollection, userCollection
 from datetime import date
 from bson import ObjectId
+import os
 
 blogBlueprint = Blueprint("blog", __name__, url_prefix="/blog")
+BLOG_DATA_IMAGES = 'static/blogdata' 
 
 @blogBlueprint.route('/', methods=['GET'])
 def listAllBlogs():
@@ -18,7 +20,7 @@ def listAllBlogs():
 def listUserBlogs():
     if session and session["email"]:
         try:
-            userBlogs = blogCollection.find({'email': session["email"]})
+            userBlogs = blogCollection.find({'author_email': session["email"]})
             return render_template("blog/listblogs.html", data=userBlogs, selfBlog=True)
         except Exception as err:
             print("Error in /myblogs: ", err)
@@ -32,23 +34,36 @@ def newBlog():
         try:
             if request.method == 'POST':
                 userName = userCollection.find_one({'email': session['email']})['full_name']
+                blogId = ObjectId()
+                icon = request.files['icon']
+                banner = request.files['banner']
+
+                blog_directory = os.path.join(BLOG_DATA_IMAGES, str(blogId))
+                if not os.path.exists(blog_directory):
+                    os.makedirs(blog_directory)
+
+                icon.save(
+                    os.path.join(blog_directory, 'icon.webp')
+                )
+                icon.save(
+                    os.path.join(blog_directory, 'banner.webp')
+                )
+
                 blog = {
+                    '_id': blogId,
                     'author': userName,
                     'author_email': session['email'],
                     'date': date.today().strftime("%b %d, %y"),
                     'title': request.form.get('title'),
-                    'icon': request.form.get('icon'),
-                    'banner': request.form.get('banner'),
+                    'icon': 'icon.webp',
+                    'banner': 'banner.webp',
                     'content': request.form.get('ckeditor'),
                     'like_count': 0,
                     'comment_count': 0
                 }
                 if blog:
-                    blogId = blogCollection.insert_one(blog)    
-                    if (blogId):
-                        redirect(url_for('blog.listAllBlogs'))
-                    else:
-                        print('Unexpcted error occured, please try again')
+                    blogCollection.insert_one(blog)
+                    redirect(url_for('blog.listAllBlogs'))
                 else:
                     print("All fields are required")            
                 

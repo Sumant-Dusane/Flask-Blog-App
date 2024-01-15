@@ -18,14 +18,14 @@
         {% for blog in data %}
         <a href="{{ url_for('blog.viewBlog', blogId=blog['_id']|default('')|string ) }}" class="blog">
             <div class="header">
-                <img src="{{ url_for( 'static', filename='userdata/'+blog['author_email']+'/profile-image.jpeg' )}}" alt="">
+                <img src="{{ url_for( 'static', filename='userdata/'+blog['author_email']+'/profile-image.webp' )}}" alt="">
                 <div class="author">{{ blog['author'] }}</div>
                 <div class="date">{{ blog['date'] }}</div>
             </div>
             <div class="content">
                 <h2>{{ blog['title'] }}</h2>
                 <div class="image">
-                    <img src="{{ blog['icon'] }}" alt="image">
+                    <img src="{{ url_for( 'static', filename='blogdata/'+blog['_id']|string+'/'+blog['icon'] )}}" alt="image">
                 </div>
             </div>
             <div class="footer">
