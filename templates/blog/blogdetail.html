@@ -17,44 +17,49 @@
     </div>
 
     <div class="controls">
-        <button class="like"><img src="{{ url_for('static', filename='svg/like-svg.svg') }}" alt="" />
-            {{ data['like_count'] }}</button>
-        <button class="comment"><img src="{{ url_for('static', filename='svg/comment-svg.svg') }}" alt="" />
-            {{ data['comment_count'] }}</button>
+        <a href="/blog/like/{{ data['_id'] }}" class="button like">
+            <img src="{{ url_for('static', filename='svg/like-svg.svg') }}" alt="" />
+            {{ data['like_count'] }}
+        </a>
+        <div class="button comment"><img src="{{ url_for('static', filename='svg/comment-svg.svg') }}" alt="" />
+            {{ data['comment_count'] }}
+        </div>
+        {% if data['author_email']==session['email'] %}
+        <a href="/blog/edit/{{ data['_id'] }}">Edit Blog</a>
+        <a href="/blog/delete/{{ data['_id'] }}">Delete Blog</a>
+        {% endif %}
     </div>
 
-    <img src="{{ url_for( 'static', filename='blogdata/'+data['_id']|string+'/banner.webp' )}}" alt="{{ data['title'] }}" class="banner">
+    <img src="{{ url_for( 'static', filename='blogdata/'+data['_id']|string+'/banner.webp' )}}"
+        alt="{{ data['title'] }}" class="banner">
 
     <div class="content">
         {{ data['content']|safe }}
     </div>
 
     <div class="comments">
-        <div class="title">Comments</div>
-        <div class="comment-box">
+        <form class="comment-box" method="post" action="/blog/comment/{{ data['_id'] }}">
             <textarea name="new-comment" placeholder="Enter your comment"></textarea>
-            <button class="btn btn-sm">Comment!</button>
-        </div>
-        {% for i in [1,2,3,4,5] %}
+            <button type="submit" class="btn btn-sm">Comment!</button>
+        </form>
+        {% if comments %}
+        {% for comment in comments %}
         <div class="comment">
             <div class="header">
-                <img src="https://miro.medium.com/v2/resize:fill:224:224/0*ORJjEuRQB57bd_SX.jpg" alt="">
-                <div>commentor_name (Dec, 2 2023)</div>
+                <img src="{{ url_for('static', filename='userdata/'+comment['commentor_email']+'/profile-image.webp') }}"
+                    alt="{{ comment['commentor'] }}">
+                <div>{{ comment['commentor'] }} <span>{{ comment['date'] }}</span></div>
             </div>
             <div class="content">
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab a modi doloribus fugiat voluptas
-                    laboriosam,
-                    recusandae tempore illum excepturi velit repudiandae cumque repellendus natus. Saepe voluptatum sit
-                    nihil expedita. A unde ex voluptatibus et delectus! Temporibus maxime est magnam sed harum, nisi
-                    accusantium tempora veniam ducimus id voluptas modi dicta quia rem sequi doloremque a? Ratione
-                    temporibus doloremque unde perferendis, reprehenderit vero nihil debitis aliquid voluptate eos autem
-                    dolorum mollitia odit consequatur adipisci enim sequi eius blanditiis quaerat, vitae exercitationem
-                    pariatur quia. Dolorum sunt totam numquam soluta ducimus reiciendis repudiandae voluptates
-                    similique,
-                    fugit adipisci molestias dolores blanditiis amet. Deserunt, quaerat?</p>
+                <p>{{ comment['comment'] }}</p>
             </div>
         </div>
         {% endfor %}
+        {% else %}
+        <div class="comment">
+            NO Comments Found
+        </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

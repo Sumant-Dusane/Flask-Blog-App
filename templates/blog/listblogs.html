@@ -16,23 +16,23 @@
 
     {% if data %}
         {% for blog in data %}
-        <a href="{{ url_for('blog.viewBlog', blogId=blog['_id']|default('')|string ) }}" class="blog">
+        <div class="blog">
             <div class="header">
                 <img src="{{ url_for( 'static', filename='userdata/'+blog['author_email']+'/profile-image.webp' )}}" alt="">
                 <div class="author">{{ blog['author'] }}</div>
                 <div class="date">{{ blog['date'] }}</div>
             </div>
-            <div class="content">
+            <a href="{{ url_for('blog.viewBlog', blogId=blog['_id']|default('')|string )}}" class="content">
                 <h2>{{ blog['title'] }}</h2>
                 <div class="image">
                     <img src="{{ url_for( 'static', filename='blogdata/'+blog['_id']|string+'/'+blog['icon'] )}}" alt="image">
                 </div>
-            </div>
+            </a>
             <div class="footer">
-                <button class="like"><img src="{{ url_for('static', filename='svg/like-svg.svg') }}" alt="" /> {{ blog['like_count'] }}</button>
-                <button class="comment"><img src="{{ url_for('static', filename='svg/comment-svg.svg') }}" alt="" /> {{ blog['comment_count'] }}</button>
+                <a href="{{ url_for('blog.likeBlog', blogId=blog['_id']|default|string )}}" class="button like"><img src="{{ url_for('static', filename='svg/like-svg.svg') }}" alt="" /> {{ blog['like_count'] }}</a>
+                <button class="button comment"><img src="{{ url_for('static', filename='svg/comment-svg.svg') }}" alt="" /> {{ blog['comment_count'] }}</button>
             </div>
-        </a>
+        </div>
         {% endfor %}
     {% else %}
         <div>No Blogs Found</div>

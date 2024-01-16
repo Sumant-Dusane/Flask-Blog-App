@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, session, request
-from db.mongoDB import blogCollection, userCollection
+from db.mongoDB import blogCollection, userCollection, commentCollection, likeCollection
 from datetime import date
 from bson import ObjectId
 import os
@@ -35,20 +35,7 @@ def newBlog():
             if request.method == 'POST':
                 userName = userCollection.find_one({'email': session['email']})['full_name']
                 blogId = ObjectId()
-                icon = request.files['icon']
-                banner = request.files['banner']
-
-                blog_directory = os.path.join(BLOG_DATA_IMAGES, str(blogId))
-                if not os.path.exists(blog_directory):
-                    os.makedirs(blog_directory)
-
-                icon.save(
-                    os.path.join(blog_directory, 'icon.webp')
-                )
-                banner.save(
-                    os.path.join(blog_directory, 'banner.webp')
-                )
-
+                
                 blog = {
                     '_id': blogId,
                     'author': userName,
@@ -61,25 +48,67 @@ def newBlog():
                     'like_count': 0,
                     'comment_count': 0
                 }
+                icon = request.files['icon']
+                banner = request.files['banner']
+                blog_directory = os.path.join(BLOG_DATA_IMAGES, str(blogId))
+                if not os.path.exists(blog_directory):
+                    os.makedirs(blog_directory)
+                icon.save(
+                    os.path.join(blog_directory, 'icon.webp')
+                )
+                banner.save(
+                    os.path.join(blog_directory, 'banner.webp')
+                )
+
                 if blog:
                     blogCollection.insert_one(blog)
-                    redirect(url_for('blog.listAllBlogs'))
+                    return redirect(url_for('blog.listAllBlogs'))
                 else:
                     print("All fields are required")            
                 
-            return render_template("blog/newblog.html")
+            return render_template("blog/newblog.html", data={}, edit=False)
         except Exception as err:
             print("Error in /blog/new: ", err)
             return render_template("error.html")
     else:
         return redirect(url_for('auth.loginUser'))
 
-@blogBlueprint.route('/edit/<int:blogId>', methods=['GET', 'POST'])
+@blogBlueprint.route('/edit/<blogId>', methods=['GET', 'POST'])
 def editBlog(blogId):
     if session and session["email"]:
         try:
-            userBlog = blogCollection.find_one({'_id': blogId})
-            return render_template("blog/editblog.html", data=userBlog)
+
+            if request.method == 'POST':
+                editedBlog = {
+                    'date': date.today().strftime("%b %d, %y"),
+                    'title': request.form.get('title'),
+                    'content': request.form.get('ckeditor'),
+                }
+
+                icon = request.files['icon']
+                banner = request.files['banner']
+                blog_directory = os.path.join(BLOG_DATA_IMAGES, str(blogId))
+                if not os.path.exists(blog_directory):
+                    os.makedirs(blog_directory)
+                icon.save(
+                    os.path.join(blog_directory, 'icon.webp')
+                )
+                banner.save(
+                    os.path.join(blog_directory, 'banner.webp')
+                )
+
+                blogCollection.update_one(
+                    {
+                        '_id': ObjectId(blogId)
+                    }, {
+                        '$set': editedBlog
+                    }
+                )
+
+                return redirect(url_for('blog.viewBlog', blogId=blogId))
+
+            userBlog = blogCollection.find_one({'_id': ObjectId(blogId)})
+            return render_template("blog/newblog.html", data=userBlog, edit=True)
         except Exception as err:
             print(f"Error in /blog/edit/{blogId}: " , err)
             return render_template("error.html")
@@ -92,10 +121,9 @@ def viewBlog(blogId):
         if session and session["email"]:
             try:
                 blog = blogCollection.find_one({'_id': ObjectId(blogId)})
-                if blog:
-                    return render_template("blog/blogdetail.html", data=blog)
-                else:
-                    return redirect(url_for('blog.listAllBlogs'))    
+                blogComment = commentCollection.find({'blogId': ObjectId(blogId)})
+                
+                return render_template("blog/blogdetail.html", data=blog, comments=blogComment)
             except Exception as err:
                 print(f"Error in /blog/{blogId}: ", err)
                 return redirect(url_for('blog.listAllBlogs'))
@@ -103,3 +131,77 @@ def viewBlog(blogId):
             return redirect(url_for('auth.loginUser'))
     else:
         return 
+    
+
+@blogBlueprint.route('/delete/<blogId>', methods=['GET', 'POST'])
+def deleteBlog(blogId):
+    if session and session['email']:
+        try:
+            blogCollection.delete_one({'_id': ObjectId(blogId)})
+            commentCollection.delete_many({'blogId': ObjectId(blogId)})
+            return redirect(url_for('blog.listAllBlogs'))
+        except Exception as err:
+            print(f"Error in /blog/delete/{blogId}: ", err)
+            return render_template(url_for('blog.viewBlog', blogId=blogId))
+    
+
+@blogBlueprint.route('/comment/<blogId>', methods=['GET', 'POST'])
+def addComment(blogId):
+    newComment = {
+        'commentor': userCollection.find_one({'email': session['email']})['full_name'],
+        'commentor_email': session['email'],
+        'date': date.today().strftime("%b %d, %y"),
+        'comment': request.form.get('new-comment'),
+        'blogId': ObjectId(blogId)
+    }
+    newCommentId = commentCollection.insert_one(newComment)
+    if newCommentId:
+        blogCollection.update_one(
+            # condition
+            {
+                '_id': ObjectId(blogId)
+            },
+            # operation
+            {
+                '$inc': {
+                    'comment_count': 1
+                }
+            }
+        )
+        #  re-render the template when new comment is added
+        return redirect(url_for('blog.viewBlog', blogId=blogId))
+    else:
+        print("Unexpected error occured, please try again")
+        return
+    
+@blogBlueprint.route('/like/<blogId>', methods=['GET', 'POST'])
+def likeBlog(blogId):
+    isLiked = likeCollection.find_one({'user': session['email']})
+    if isLiked:
+        likeCollection.delete_one({'user': session['email']})
+        blogCollection.update_one(
+            {
+                '_id': ObjectId(blogId)
+            }, {
+                '$inc': {
+                    'like_count': -1
+                }
+            }
+        )
+    else:
+        newLike = {
+            'user': session['email'],
+            'blogId': ObjectId(blogId),
+        }
+        likeCollection.insert_one(newLike)
+        blogCollection.update_one(
+            {
+                '_id': ObjectId(blogId)
+            },
+            {
+                '$inc': {
+                    'like_count': 1
+                }
+            }
+        )
+    return redirect(url_for('blog.listAllBlogs', blogId=blogId))

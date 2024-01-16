@@ -111,6 +111,14 @@
     object-fit: contain;
 }
 
+.blog-new .editor .upload-banner > img.loaded,
+.blog-new .editor .upload-icon > img.loaded {
+    opacity: 1;
+    z-index: 2;
+    pointer-events: none;
+}
+
+
 .blog-new .editor .upload-icon input,
 .blog-new .editor .upload-banner input {
     cursor: pointer;

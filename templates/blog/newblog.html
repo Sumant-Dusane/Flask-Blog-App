@@ -1,25 +1,39 @@
 {% extends 'base.html' %}
 
-{% block title %} New Blog: Flask Blog {% endblock title %}
+{% block title %} 
+    {% if edit %}
+    Edit Blog: Flask Blog 
+    {% else %}   
+    New Blog: Flask Blog 
+    {% endif %}   
+{% endblock title %}
 
+ 
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/blog-new.css') }}">
 {% endblock head %}
 
 {% block body %}
 <div class="blog-new wrapper container">
-    <div class="title">Create you new Blog!</div>
-    <form class="editor" method="POST" action="" enctype="multipart/form-data">
+    <div class="title">{{ 'Edit your Blog' if edit else 'Create you new Blog!'}}</div>
+    <form class="editor" method="POST" action="{{ '/blog/edit/'+data['_id']|string if edit else '' }}" enctype="multipart/form-data">
         <div class="row">
             <div class="upload-icon">
                 <div class="icon-bg">
                     <img src="{{ url_for('static', filename='images/file-upload.png') }}" alt="">
                     <div>Upload Blog's icon here</div>
                 </div>
+
+                {% if edit %}
+                <img id="iconBg" class="loaded" src="{{ url_for('static', filename='blogdata/'+data['_id']|string+'/icon.webp' )}}" alt="">
+                <input type="file" name="icon" id="icon" accept="image/*" value="{{ url_for('static', filename='blogdata/'+data['_id']|string+'/icon.webp' )}}" onchange="loadIcon(event)">
+                {% else %}
                 <img id="iconBg" src="" alt="">
                 <input type="file" name="icon" id="icon" accept="image/*" onchange="loadIcon(event)">
+                {% endif %}
+                
             </div>
-            <input type="text" name="title" id="title" placeholder="Blog Title">
+            <input type="text" name="title" id="title" placeholder="Blog Title" value="{{data['title'] or '' }}">
         </div>
 
         <div class="row">
@@ -28,17 +42,31 @@
                     <img src="{{ url_for('static', filename='images/file-upload.png') }}" alt="">
                     <div>Upload Image Banner Here</div>
                 </div>
+                
+                {% if edit %}
+                <img id="bannerBg" class="loaded" src="{{ url_for('static', filename='blogdata/'+data['_id']|string+'/banner.webp' )}}" alt="">
+                <input type="file" name="banner" id="banner" accept="image/*" value="{{ url_for('static', filename='blogdata/'+data['_id']|string+'/banner.webp' )}}" onchange="loadBanner(event)">
+                {% else %}
                 <img id="bannerBg" src="" alt="">
                 <input type="file" name="banner" id="banner" accept="image/*" onchange="loadBanner(event)">
+                {% endif %}
+
+
             </div>
         </div>
 
         <div class="content">
             {{ ckeditor.load() }}
-            {{ ckeditor.create() }}
+            {{ ckeditor.create(value=data['content'] or '') }}
             {{ ckeditor.config(height=800) }}
         </div>
+
+        {% if edit %}
+        <button type="submit" class="btn">Re-Publish!</button>
+        {% else %}
         <button type="submit" class="btn">Publish!</button>
+        {% endif %}
+
     </form>
 
     <script>

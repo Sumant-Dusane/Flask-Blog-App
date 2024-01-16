@@ -6,3 +6,5 @@ mongo = mongo_client.blog_app
 
 blogCollection = mongo.blogs
 userCollection = mongo.users
+commentCollection = mongo.comments
+likeCollection = mongo.likes

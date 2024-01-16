@@ -68,7 +68,7 @@
     gap: 2rem;
 }
 
-.blog-list .blog .footer button {
+.blog-list .blog .footer .button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -77,13 +77,19 @@
     background: transparent;
 }
 
-.blog-list .blog .footer button img {
+.blog-list .blog .footer .button img {
     height: 18px;
     width: auto;
 }
 
+.blog-list .blog .footer .like {
+    filter: grayscale(1);
+    transition: .3s ease-in-out all;
+}
+
 .blog-list .blog .footer .like:hover, .blog-list .blog .footer .like.liked {
     color: red;
+    filter: none;
 }
 
 @media screen and (max-width: 768px) {
