@@ -15,4 +15,4 @@ if __name__ == '__main__':
     app.register_blueprint(blogBlueprint)
     app.register_blueprint(homeBlueprint)
 
-    app.run(debug=True)
+    app.run()
