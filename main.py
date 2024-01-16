@@ -10,9 +10,6 @@ app.config['SECRET_KEY'] = '3d6f45a5fc12445dbac2f59c3b6c7cb1'
 
 ckeditor = CKEditor(app)
 
-if __name__ == '__main__':
-    app.register_blueprint(authBlueprint)
-    app.register_blueprint(blogBlueprint)
-    app.register_blueprint(homeBlueprint)
-
-    app.run()
+app.register_blueprint(authBlueprint)
+app.register_blueprint(blogBlueprint)
+app.register_blueprint(homeBlueprint)
