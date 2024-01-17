@@ -139,6 +139,7 @@ def deleteBlog(blogId):
         try:
             blogCollection.delete_one({'_id': ObjectId(blogId)})
             commentCollection.delete_many({'blogId': ObjectId(blogId)})
+            likeCollection.delete_many({'blogId': ObjectId(blogId)})
             return redirect(url_for('blog.listAllBlogs'))
         except Exception as err:
             print(f"Error in /blog/delete/{blogId}: ", err)
