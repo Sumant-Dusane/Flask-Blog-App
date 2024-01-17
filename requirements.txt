@@ -2,3 +2,4 @@ flask
 flask-pymongo
 flask-ckeditor
 Werkzeug
+Gunicorn
