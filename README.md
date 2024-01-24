@@ -8,9 +8,9 @@
 <h4 align="center">Flask based Blog application where user can create account and upload blogs and like, comment the blogs. </h4>
 
 <p align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Flask_logo.svg/1280px-Flask_logo.svg.png" alt="Flask" width="auto" height="32" />
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Python_logo_and_wordmark.svg/240px-Python_logo_and_wordmark.svg.png" alt="Python" width="auto" height="32" />
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/MongoDB_Logo.svg/2560px-MongoDB_Logo.svg.png" alt="MongoDB" width="auto" height="32" />
+  <img src="https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white" alt="Flask" width="auto" height="32" />
+  <img src="https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue" alt="Python" width="auto" height="32" />
+  <img src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB" width="auto" height="32" />
 </p>
 
 <p align="center">
