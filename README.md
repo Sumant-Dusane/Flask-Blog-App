@@ -20,7 +20,7 @@
   <a href="#support">Support</a> •
 </p>
 
-![screenshot](https://github.com/Sumant-Dusane/Flask-Blog-App/blob/main/image.jpeg?raw=true)
+![screenshot](https://github.com/Sumant-Dusane/Flask-Blog-App/blob/main/blob/image.jpeg)
 
 ## Key Features
 
